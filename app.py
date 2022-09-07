@@ -1,14 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask_session import Session
 import Constants
 from Data_Collection import get_channel_Ids, get_playlist_ids, get_video_details, get_comments
 
 app = Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 app.secret_key = "faiz"
 
-app.channelId = 'INVALID'
-app.playlistId = 'INVALID'
-app.username = None
-app.videoCountRequest = 5
 
 
 @app.route("/home")
@@ -20,14 +20,14 @@ def home():
 def check():
     try:
         youtube_url = str(request.form['youtube_url'])
-        app.username = youtube_url.split('/')[4]
+        session['username'] = youtube_url.split('/')[4]
         if len(youtube_url) != 0:
-            app.channelId = get_channel_Ids.get_channel_Ids(youtube_url)
-            if app.channelId == 'INVALID':
+            session['channelId'] = get_channel_Ids.get_channel_Ids(youtube_url)
+            if session['channelId'] == 'INVALID':
                 return redirect(url_for("home"))
             else:
                 return render_template("index.html", GitHubLink=Constants.GitHubLink,
-                                       status_comments="channelId found: " + app.channelId)
+                                       status_comments="channelId found: " + session['channelId'])
         else:
             return redirect(url_for("home"))
     except Exception as e:
@@ -37,23 +37,23 @@ def check():
 
 @app.route("/submit", methods=["POST", "GET"])
 def submit():
-    if app.channelId == 'INVALID':
+    if session['channelId'] == 'INVALID':
         return redirect(url_for("home"))
     else:
-        app.playlistId = get_playlist_ids.get_playlist_ids(app.channelId)
-        if app.playlistId == 'INVALID':
-            app.channelId = 'INVALID'
+        session['playlistId'] = get_playlist_ids.get_playlist_ids(session['channelId'])
+        if session['playlistId'] == 'INVALID':
+            session['channelId'] = 'INVALID'
             return redirect(url_for("home"))
         else:
-            app.videoCountRequest = int(request.form['videoCountRequest'])
-            app.video_data, channelTitle = get_video_details.get_video_details(app.playlistId, app.username,
-                                                                               maxResults=app.videoCountRequest)
-            if app.video_data is None:
-                app.channelId = 'INVALID'
-                app.playlistId = 'INVALID'
+            session['videoCountRequest'] = int(request.form['videoCountRequest'])
+            session['video_data'], channelTitle = get_video_details.get_video_details(session['playlistId'], session['username'],
+                                                                               maxResults=session['videoCountRequest'])
+            if session['video_data'] is None:
+                session['channelId'] = 'INVALID'
+                session['playlistId'] = 'INVALID'
                 return redirect(url_for("home"))
             else:
-                return render_template("index_table.html", tables=[app.video_data.to_html(escape=False,
+                return render_template("index_table.html", tables=[session['video_data'].to_html(escape=False,
                                                                                           formatters=dict(thumbnail = path_to_image_html,
                                                                                                           Comments = convert_comment_link,
                                                                                                           VideoTitle = convert_title_link
@@ -78,7 +78,8 @@ def submit():
 @app.route("/comments", methods=["POST", "GET"])
 def comments():
     videoId = request.args.get('videoId')
-    videotitle = app.video_data[app.video_data['videoId'] == videoId]['title'].values[0]
+    video_data = session['video_data']
+    videotitle = video_data[video_data['videoId'] == videoId]['title'].values[0]
     comments_data = get_comments.get_comments(videoId, videotitle)
     return jsonify(comments_data)
 
