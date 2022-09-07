@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title> Table </title>
+		<title>Table: iNeuron Youtube Challenge</title>
+    	<link rel = "stylesheet" href = "{{ url_for('static', filename = 'css/main.css')}}">
 	</head>
 	<body>
 		<div align="center">
+			<a href = "https://ineuron.ai/" target="_blank">
+            <img src = "./static/images/ineuron-logo.png" alt = "ineuron-logo"
+             width= "120" height="30" align = "left"/>
+			</a>
+        <h1 align = "center" style = "margin-top: 20px;";>
+            iNeuron Youtube Challenge
+        </h1>
+		<h1 align = "center" style = "margin-top: 20px;";>
+            Showing results for {{channelTitle}}
+        </h1>
 			<table>
 				<h1>
 					{% for table in tables %}
-						<h2>{{titles[loop.index]}}</h2>
+						<h2>
+							{{titles[loop.index]}}
+						</h2>
 					{{ table|safe }}
 					{% endfor %}
 				</h1>

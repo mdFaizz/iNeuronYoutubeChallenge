@@ -40,12 +40,17 @@
             {{status_comments}}
         </label>
     </form>
+    <br>
     <form target="_blank" action = "submit" method = "post">
+
+        <label for = "ENTER_VIDEOCOUNT" style = "font-size: 1.2em" id = "ENTER_VIDEOCOUNT">
+                Number of Videos to load:
+        </label>
+
+        <input value="10" name = "videoCountRequest" id = "videoCountRequest" type = "number" min = "1" max = "50"/>
+
         <input type="submit" id = "submit" value = "Submit" >
     </form>
-    <br>
-    <br>
-
 
 </body>
 </html>

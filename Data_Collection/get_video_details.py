@@ -11,21 +11,21 @@ def get_video_details(playlistId, username, maxResults=5):
             maxResults=maxResults
         ).execute()
         data = {
-            'username': [],
-            'channelTitle': [],
+            # 'username': [],
+            # 'channelTitle': [],
+            'thumbnail': [],
             'title': [],
             'publishedAt': [],
-            'thumbnailLink': [],
             'videoLink': [],
             'videoId': []
         }
         for item in response_playlist['items']:
             snippet = item['snippet']
-            data['username'].append(username)
-            data['channelTitle'].append(snippet['channelTitle'])
+            # data['username'].append(username)
+            # data['channelTitle'].append(snippet['channelTitle'])
             data['title'].append(snippet['title'])
             data['publishedAt'].append(snippet['publishedAt'])
-            data['thumbnailLink'].append(snippet['thumbnails']['default']['url'])
+            data['thumbnail'].append(snippet['thumbnails']['default']['url'])
             videoId = snippet['resourceId']['videoId']
             data['videoId'].append(videoId)
             videoLink = f"https://www.youtube.com/watch?v={videoId}"
@@ -47,9 +47,13 @@ def get_video_details(playlistId, username, maxResults=5):
             data_temp['commentCount'].append(response_video['items'][0]['statistics']['commentCount'])
 
         data = {**data, **data_temp}
+        # del data['videoId']
         # data = [dict(zip(data, v)) for v in zip(*data.values())]
         data = pd.DataFrame(data)
-        return data
+        data['Comments'] = data['videoId'] + '#SPLIT#' + data['commentCount'].astype(str)
+        data['VideoTitle'] = data['title'] + '#SPLIT#' + data['videoLink'].astype(str)
+        # data['videoLink'] = data['videoLink'].apply(lambda var: f'<a href = "{var}" > {var} </a>')
+        return data, snippet['channelTitle']
     except Exception as e:
         print(e)
-        return None
+        return None, None
