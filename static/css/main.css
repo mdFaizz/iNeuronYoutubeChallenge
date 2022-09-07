@@ -1,0 +1,71 @@
+body {
+    background-color: lightslategray;
+    text-align: center;
+}
+
+#ENTER_URL {
+    color: white;
+    font-family: Shanti;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+input {
+    width: 300px;
+    height: 50px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    font-family: Shanti;
+    text-align: left;
+    size: 1.3em
+    font-size: 1.2em
+}
+
+#GitHubLink {
+ font-size: 1.1em
+}
+
+#iNeuronLink {
+ font-size: 1.1em
+}
+
+#check {
+    width: 80px;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 20px;
+    border: none;
+    border-radius: 10px;
+    font-family: Shanti;
+    text-align: center;
+    size: 1.3em;
+    font-size: 1.1em;
+}
+
+#check:hover {
+    background-color: gray;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#submit {
+    width: 80px;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 100px;
+    border: none;
+    border-radius: 10px;
+    font-family: Shanti;
+    text-align: center;
+    size: 1.3em;
+    font-size: 1.1em;
+}
+
+#submit:hover {
+    background-color: gray;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+}

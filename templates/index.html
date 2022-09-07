@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iNeuron Youtube Challenge</title>
+    <link rel = "stylesheet" href = "{{ url_for('static', filename = 'css/main.css')}}">
+</head>
+<body>
+    <div>
+        <a href = "https://ineuron.ai/" target="_blank">
+            <img src = "./static/images/ineuron-logo.png" alt = "ineuron-logo"
+             width= "120" height="30" align = "left"
+
+        />
+        </a>
+
+        <h1 align = "center" style = "margin-top: 20px;";>
+            iNeuron Youtube Challenge
+        </h1>
+
+        <a href={{GitHubLink}} target="_blank" id = "GitHubLink">
+            Github Link
+        </a>
+        <a href={{GitHubLink}} target="_blank" id = "iNeuronLink" style = "margin-left: 20px">
+            iNeuron
+        </a>
+    </div>
+    <br>
+    <form action = "check" method = "post">
+        <label for = "ENTER_URL" style = "font-size: 1.5em" id = "ENTER_URL">
+                    Enter the Youtube URL:
+        </label>
+
+        <input name = "youtube_url" id = "youtube_url" type = "text" style = "font-size: 1.2em"/>
+
+        <input type="submit" id = "check" value = "check">
+        <br>
+        <br>
+        <label>
+            {{status_comments}}
+        </label>
+    </form>
+    <form target="_blank" action = "submit" method = "post">
+        <input type="submit" id = "submit" value = "Submit" >
+    </form>
+    <br>
+    <br>
+
+
+</body>
+</html>
