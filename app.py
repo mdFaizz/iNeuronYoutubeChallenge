@@ -7,7 +7,6 @@ app.secret_key = "faiz"
 
 app.channelId = 'INVALID'
 app.playlistId = 'INVALID'
-app.video_data = 'INVALID'
 app.username = None
 app.videoCountRequest = 5
 
