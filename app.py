@@ -105,5 +105,10 @@ def convert_title_link(var):
             <a target="_blank" href="{videoLink}"> {title} </a>
             '''
 
+
+@app.route('/')
+def go_to_home():
+    return redirect(url_for("home"))
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run()
