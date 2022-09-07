@@ -10,7 +10,6 @@ Session(app)
 app.secret_key = "faiz"
 
 
-
 @app.route("/home")
 def home():
     return render_template("index.html", GitHubLink=Constants.GitHubLink)
@@ -33,6 +32,7 @@ def check():
     except Exception as e:
         print(e)
         return redirect(url_for("home"))
+
 
 
 @app.route("/submit", methods=["POST", "GET"])

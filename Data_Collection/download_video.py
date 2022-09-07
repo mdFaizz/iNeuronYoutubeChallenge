@@ -31,7 +31,6 @@ def download_video(videoId):
         except exceptions.LiveStreamError as e:
             return f"video: {videoId} is streaming live and cannot be loaded"
 
-
     video.stream_to_buffer(buffer)
     buffer.seek(0)
 
