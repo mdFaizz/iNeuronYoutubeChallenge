@@ -52,6 +52,7 @@ def get_video_details(playlistId, username, maxResults=5):
         data = pd.DataFrame(data)
         data['Comments'] = data['videoId'] + '#SPLIT#' + data['commentCount'].astype(str)
         data['VideoTitle'] = data['title'] + '#SPLIT#' + data['videoLink'].astype(str)
+        data['DownloadLink'] = data['videoId']
         # data['videoLink'] = data['videoLink'].apply(lambda var: f'<a href = "{var}" > {var} </a>')
         return data, snippet['channelTitle']
     except Exception as e:

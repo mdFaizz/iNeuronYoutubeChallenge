@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from flask_session import Session
 import Constants
-from Data_Collection import get_channel_Ids, get_playlist_ids, get_video_details, get_comments
+from Data_Collection import get_channel_Ids, get_playlist_ids, get_video_details, get_comments, download_video
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -56,7 +56,8 @@ def submit():
                 return render_template("index_table.html", tables=[session['video_data'].to_html(escape=False,
                                                                                           formatters=dict(thumbnail = path_to_image_html,
                                                                                                           Comments = convert_comment_link,
-                                                                                                          VideoTitle = convert_title_link
+                                                                                                          VideoTitle = convert_title_link,
+                                                                                                          DownloadLink=create_download_urls
                                                                                                           ),
                                                                                           render_links=True,
                                                                                           bold_rows=True,
@@ -67,7 +68,8 @@ def submit():
                                                                                                    'publishedAt',
                                                                                                    'viewCount',
                                                                                                    'likeCount',
-                                                                                                   'Comments'
+                                                                                                   'Comments',
+                                                                                                   'DownloadLink'
                                                                                                    ]
                                                                                           )
                                                                    ],
@@ -82,6 +84,12 @@ def comments():
     videotitle = video_data[video_data['videoId'] == videoId]['title'].values[0]
     comments_data = get_comments.get_comments(videoId, videotitle)
     return jsonify(comments_data)
+
+@app.route("/download", methods = ["POST", "GET"])
+def download():
+    videoId = request.args.get('videoId')
+    file = download_video.download_video(videoId)
+    return file
 
 
 def path_to_image_html(path):
@@ -105,6 +113,10 @@ def convert_title_link(var):
             <a target="_blank" href="{videoLink}"> {title} </a>
             '''
 
+def create_download_urls(videoId):
+    return f'''
+            <a target="_blank" href="/download?videoId={videoId}"> Download </a>
+            '''
 
 @app.route('/')
 def go_to_home():
