@@ -25,6 +25,10 @@ Execution description:
 # azure: https://ineuronyoutubechallengefaizan.azurewebsites.net
 # aws: http://ineuronyoutubechallengefaizan-env-1.eba-qmpvnbep.ap-southeast-1.elasticbeanstalk.com/
 
+Deviations/Improvements from actual scope:
+1.  videos for the 4 youtubers were supposed to be downloaded and stored in S3 or G-drive and a link to download was supposed to be added in the table, but since the videos needed upto 15 GB space this was not done. Instead pytube module was used to directly download the video to local on a single button click (also making to generic and available for all the videos on Youtube)
+2.  MongoDB was only supposed to hold the comments and thumbnail data, instead all the other data was also uploaded for learning and back-up purposes.
+
 How to Use:
 1.  Refer video:- 
 
